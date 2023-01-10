@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DealerToCustomerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,3 +27,11 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+
+Route::prefix('messageSending')->group(function (){
+    Route::controller(DealerToCustomerController::class)->group(function (){
+        Route::get('Create','create')->name('CreateMessage');
+        Route::post('StoreMessage','store')->name('StoreMessage');
+    })->name('DealerToMessage');
+})->name('Sending')->middleware('auth');
