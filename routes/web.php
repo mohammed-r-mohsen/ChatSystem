@@ -35,3 +35,32 @@ Route::prefix('messageSending')->group(function (){
         Route::post('StoreMessage','store')->name('StoreMessage');
     })->name('DealerToMessage');
 })->name('Sending')->middleware('auth');
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+
+Route::group(['prefix' => 'expert',], function () {
+
+    Route::group(['prefix' => 'products',], function () {
+
+        Route::get('/add_to_bundle', function () {
+            return view('expertDealer.product.add_to_bundle');
+        })->name('expert.add_to_bundle.product');
+
+    });
+
+    Route::group(['prefix' => 'bundles',], function () {
+
+        Route::get('/bundles', function () {
+            return view('expertDealer.bundle.index');
+        })->name('expert.index.bundle');
+
+        Route::get('/create', function () {
+            return view('expertDealer.bundle.create');
+        })->name('expert.create.bundle');
+    });
+})->middleware('auth');
+
+
