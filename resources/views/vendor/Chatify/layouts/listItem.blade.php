@@ -4,9 +4,9 @@
         <tr data-action="0">
             {{-- Avatar side --}}
             <td>
-            <div class="avatar av-m" style="background-color: #d9efff; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                <span class="far fa-bookmark" style="font-size: 22px; color: #68a5ff;"></span>
-            </div>
+                <div class="avatar av-m" style="background-color: #d9efff; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <span class="far fa-bookmark" style="font-size: 22px; color: #68a5ff;"></span>
+                </div>
             </td>
             {{-- center side --}}
             <td>
@@ -19,71 +19,89 @@
 
 {{-- -------------------- All users/group list -------------------- --}}
 @if($get == 'users')
-<table class="messenger-list-item" data-contact="{{ $user->id }}">
-    <tr data-action="0">
-        {{-- Avatar side --}}
-        <td style="position: relative">
-            @if($user->active_status)
-                <span class="activeStatus"></span>
-            @endif
-        <div class="avatar av-m"
-        style="background-image: url('{{ $user->avatar }}');">
-        </div>
-        </td>
-        {{-- center side --}}
-        <td>
-        <p data-id="{{ $user->id }}" data-type="user">
-            {{ strlen($user->name) > 12 ? trim(substr($user->name,0,12)).'..' : $user->name }}
-            <span>{{ $lastMessage->created_at->diffForHumans() }}</span></p>
-        <span>
+    <table class="messenger-list-item" data-contact="{{ $user->id }}">
+        <tr data-action="0">
+            {{-- Avatar side --}}
+            <td style="position: relative">
+                @if($user->active_status)
+                    <span class="activeStatus"></span>
+                @endif
+                <div class="avatar av-m"
+                     style="background-image: url('{{ $user->avatar }}');">
+                </div>
+            </td>
+            {{-- center side --}}
+            <td>
+                <p data-id="{{ $user->id }}" data-type="user">
+                    {{ strlen($user->name) > 12 ? trim(substr($user->name,0,12)).'..' : $user->name }}  "{{$user->type}}"
+                    <span>{{ $lastMessage->created_at->diffForHumans() }}</span></p>
+                <span>
             {{-- Last Message user indicator --}}
-            {!!
-                $lastMessage->from_id == Auth::user()->id
-                ? '<span class="lastMessageIndicator">You :</span>'
-                : ''
-            !!}
-            {{-- Last message body --}}
-            @if($lastMessage->attachment == null)
-            {!!
-                strlen($lastMessage->body) > 30
-                ? trim(substr($lastMessage->body, 0, 30)).'..'
-                : $lastMessage->body
-            !!}
-            @else
-            <span class="fas fa-file"></span> Attachment
-            @endif
+                    {!!
+                        $lastMessage->from_id == Auth::user()->id
+                        ? '<span class="lastMessageIndicator">You :</span>'
+                        : ''
+                    !!}
+                    {{-- Last message body --}}
+                    @if($lastMessage->attachment == null)
+                        {!!
+                            strlen($lastMessage->body) > 30
+                            ? trim(substr($lastMessage->body, 0, 30)).'..'
+                            : $lastMessage->body
+                        !!}
+                    @else
+                        <span class="fas fa-file"></span> Attachment
+                    @endif
         </span>
-        {{-- New messages counter --}}
-            {!! $unseenCounter > 0 ? "<b>".$unseenCounter."</b>" : '' !!}
-        </td>
+                {{-- New messages counter --}}
+                {!! $unseenCounter > 0 ? "<b>".$unseenCounter."</b>" : '' !!}
+            </td>
 
-    </tr>
-</table>
+        </tr>
+    </table>
 @endif
 
 {{-- -------------------- Search Item -------------------- --}}
-@if($get == 'search_item')
-<table class="messenger-list-item" data-contact="{{ $user->id }}">
-    <tr data-action="0">
-        {{-- Avatar side --}}
-        <td>
-        <div class="avatar av-m"
-        style="background-image: url('{{ $user->avatar }}');">
-        </div>
-        </td>
-        {{-- center side --}}
-        <td>
-            <p data-id="{{ $user->id }}" data-type="user">
-            {{ strlen($user->name) > 12 ? trim(substr($user->name,0,12)).'..' : $user->name }}
-        </td>
-
-    </tr>
-</table>
+{{--this for user--}}
+@if($get == 'search_item' && $user->type != auth()->user()->type && auth()->user()->type == "user" )
+    <table class="messenger-list-item" data-contact="{{ $user->id }}">
+        <tr data-action="0">
+            {{-- Avatar side --}}
+            <td>
+                <div class="avatar av-m"
+                     style="background-image: url('{{ $user->avatar }}');">
+                </div>
+            </td>
+            {{-- center side --}}
+            <td>
+                <p data-id="{{ $user->id }}" data-type="user">
+                    {{ strlen($user->name) > 12 ? trim(substr($user->name,0,12)).'..' : $user->name }}  "{{$user->type}}"
+            </td>
+        </tr>
+    </table>
+@endif
+{{--this for store--}}
+@if($get == 'search_item' && auth()->user()->type == "store" )
+    <table class="messenger-list-item" data-contact="{{ $user->id }}">
+        <tr data-action="0">
+            {{-- Avatar side --}}
+            <td>
+                <div class="avatar av-m"
+                     style="background-image: url('{{ $user->avatar }}');">
+                </div>
+            </td>
+            {{-- center side --}}
+            <td>
+                <p data-id="{{ $user->id }}" data-type="user">
+                     {{$user->type}} : {{ strlen($user->name) > 12 ? trim(substr($user->name,0,12)).'..' : $user->name }}
+            </td>
+        </tr>
+    </table>
 @endif
 
 {{-- -------------------- Shared photos Item -------------------- --}}
 @if($get == 'sharedPhoto')
-<div class="shared-photo chat-image" style="background-image: url('{{ $image }}')"></div>
+    <div class="shared-photo chat-image" style="background-image: url('{{ $image }}')"></div>
 @endif
 
 

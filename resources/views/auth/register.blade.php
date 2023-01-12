@@ -21,7 +21,11 @@
 
             <div class="mt-4">
                 <x-jet-label for="type" value="{{ __('type') }}" />
-                <x-jet-input id="type" class="block mt-1 w-full" type="text" name="type" :value="old('type')" required />
+                {{--                <x-jet-input id="type" class="block mt-1 w-full" type="text" name="type" :value="old('type')" required />--}}
+                <select name="type" id="type"  class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm block mt-1 w-full">
+                    <option value="user">user</option>
+                    <option value="store">store</option>
+                </select>
             </div>
 
             <div class="mt-4">
