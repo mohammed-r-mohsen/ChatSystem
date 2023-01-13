@@ -3,8 +3,7 @@
     Obaya - Dashboard
 @endsection
 
-@section('content')
-    <!-- Start Page Content -->
+@section('content')++     <!-- Start Page Content -->
     @include('partials.top-header')
     <div class="container pt-4 pb-3 ">
 
